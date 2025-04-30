@@ -8,16 +8,21 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Email transporter setup
+// ✅ Root route for Render health check
+app.get("/", (req, res) => {
+    res.send("🚀 Passion Base Hotel backend is running.");
+});
+
+// ✅ Email transporter setup
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: process.env.EMAIL_USER, // Your email
-        pass: process.env.EMAIL_PASS  // Your email app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 
-// Handle booking email
+// ✅ Handle booking requests
 app.post("/send-email", async (req, res) => {
     const { name, phone, email, checkInDate, checkOutDate, roomType } = req.body;
 
@@ -32,7 +37,7 @@ app.post("/send-email", async (req, res) => {
     `;
 
     try {
-        // 📩 Email to the hotel
+        // 📩 Email to hotel
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: "passionbasehotel@gmail.com",
@@ -40,7 +45,7 @@ app.post("/send-email", async (req, res) => {
             text: bookingDetails
         });
 
-        // 📩 Confirmation email to the user
+        // 📩 Confirmation email to guest
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
@@ -56,4 +61,6 @@ app.post("/send-email", async (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+// ✅ Use dynamic port for deployment
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
