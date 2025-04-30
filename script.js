@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // 👉 IMPORTANT: USE YOUR DEPLOYED RENDER BACKEND URL
-            const response = await fetch("https://pbh-backend.onrender.com", { 
+            const response = await fetch("https://pbh-91ew.onrender.com", { 
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(bookingDetails)
